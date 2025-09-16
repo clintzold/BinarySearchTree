@@ -3,14 +3,15 @@ require_relative 'node'
 class Tree
   attr_accessor :root
 
-  def initialize(root)
-    @root = root
+  def initialize(array)
+    @root = build_tree(array)
   end
 
   def build_tree(array)
-
-
-
+    
+    sorted_array = merge_sort(array.uniq)
+    puts sorted_array
+    return Node.new(sorted_array[array.length / 2])
   end
 
   def merge_sort(array)
