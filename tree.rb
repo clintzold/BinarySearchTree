@@ -9,12 +9,20 @@ class Tree
 
   def build_tree(array)
     
-    sorted_array = merge_sort(array.uniq)
-    puts sorted_array
-    return Node.new(sorted_array[array.length / 2])
+
+    array = array.uniq
+    puts array
+
+    left = array[(array.length / 2) -1]
+    right = array[array.length / 2 + 1]
+    middle = array[array.length / 2]
+    return Node.new(middle, left, right)
   end
 
-  def merge_sort(array)
+
+
+
+  def self.merge_sort(array)
 
     return array if array.length == 1
 
@@ -23,7 +31,7 @@ class Tree
     merge(merge_sort(left_array), merge_sort(right_array))
   end
 
-  def merge(left, right)
+  def self.merge(left, right)
 
     sorted = []
 
