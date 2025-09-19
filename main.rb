@@ -3,9 +3,11 @@ require_relative 'comparable'
 require_relative 'node'
 require_relative 'tree'
 
-
-array = Array.new(10) { rand(100) }
-
+array = Array.new(25) { rand(100) } 
+array = array.uniq
+array = Tree.merge_sort(array)
 tree = Tree.new(array)
 
-puts tree.root.data
+puts tree.root
+binding.pry
+puts 'hey'
