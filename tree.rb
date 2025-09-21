@@ -42,6 +42,18 @@ class Tree
     end
 
   end
+
+
+  def delete(value, node = @root)
+    return nil if node.nil?
+    return value if value == node.data
+
+    if value < node.data
+      delete(value, node.left)
+    elsif value > node.data
+      delete(value, node.right)
+    end
+  end
   #Prints tree in an easy to understand format
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
