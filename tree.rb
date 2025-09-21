@@ -46,7 +46,7 @@ class Tree
 
   def delete(value, node = @root)
     return nil if node.nil?
-    return value if value == node.data
+    return value if value == node.data  #temporary confirmation(to be removed)
 
     if value < node.data
       delete(value, node.left)
@@ -54,6 +54,14 @@ class Tree
       delete(value, node.right)
     end
   end
+
+
+  def find_min(node)
+    min = node.left
+    return min if min.left.nil?
+    find_min(min)
+  end
+
   #Prints tree in an easy to understand format
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
