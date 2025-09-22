@@ -44,15 +44,32 @@ class Tree
   end
 
 
-  def delete(value, node = @root)
+  def delete(value, node = @root, parent = nil)
     return nil if node.nil?
-    return value if value == node.data  #temporary confirmation(to be removed)
+    if value == node.data  #temporary confirmation(to be removed)
 
-    if value < node.data
-      delete(value, node.left)
-    elsif value > node.data
-      delete(value, node.right)
+      if num_of_children(node).nil?
+        delete_leaf(parent, node)
+      end
     end
+    if value < node.data
+      delete(value, node.left, node)
+    elsif value > node.data
+      delete(value, node.right, node)
+    end
+  end
+
+
+  def delete_leaf(parent, node)
+
+    if parent.data > node.data
+      parent.left = nil
+    elsif parent.data < node.data
+      parent.right = nil
+    else @root = nil
+    end
+    return nil
+
   end
 
 
@@ -60,6 +77,12 @@ class Tree
     min = node.left
     return min if min.left.nil?
     find_min(min)
+  end
+
+  def num_of_children(node)
+    return 2 if node.left && node.right
+    return 1 if node.left && !node.right || node.right && !node.left
+    return nil if node.left.nil? && node.right.nil?
   end
 
   #Prints tree in an easy to understand format
