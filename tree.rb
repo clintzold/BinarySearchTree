@@ -50,7 +50,11 @@ class Tree
 
       if num_of_children(node).nil?
         delete_leaf(parent, node)
+      elsif num_of_children(node) == 1
+        delete_single(parent, node)
+      else
       end
+
     end
     if value < node.data
       delete(value, node.left, node)
@@ -72,8 +76,20 @@ class Tree
 
   end
 
+  def delete_single(parent, node)
+    if parent.data > node.data
+      parent.left = node.right if node.right
+      parent.left = node.left if node.left
+    else
+      parent.right = node.right if node.right
+      parent.right = node.left if node.left
+    end
+    return node
+  end
+
 
   def find_min(node)
+    return node if node.left.nil?
     min = node.left
     return min if min.left.nil?
     find_min(min)
