@@ -45,19 +45,23 @@ class Tree
 
   #Begins the delete process, calling different methods depending on position of node(two children, one child, or no child)
   def delete(root = @root, value)
+    #Base case(match not found)
     return root if root.nil?
-
+    
+    #Traverses tree to find matching value
     if root.data > value
       root.left = delete(root.left, value)
     elsif root.data < value
       root.right = delete(root.right, value)
     else
-
+      #Match where root has 0 children or only right child
       if root.left.nil?
         return root.right
+      #Match where root has only left child
       elsif root.right.nil?
         return root.left
       else
+        #Match when root has left and right children
         successor = find_successor(root.right)
         root.data = successor.data
         root.right = delete(root.right, successor.data)
