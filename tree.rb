@@ -85,7 +85,7 @@ class Tree
     end
   end
 
-
+  #Iterative level order traversal(yields each node to optional block)
   def level_order(root = @root)
     return [] if root.nil?
     result = []
@@ -106,6 +106,29 @@ class Tree
       result << current_level_values
     end
     return result if !block_given?
+  end
+
+  #Recursive level order traversal(yields each node to optional block)
+  def level_order_recur(root = @root, &block)
+    result = []
+    level_order_helper(root, 0, result, &block)
+    #Does not return array of values if block has been passed
+    return if block_given?
+    #Returns array of values in order of traversal
+    return result
+  end
+  #Creates an array for each level of BST
+  def level_order_helper(node, level, result, &block)
+    return if node.nil?
+    if level == result.length
+      result << []
+    end
+    result[level] << node.data
+    level_order_helper(node.left, level + 1, result, &block)
+    level_order_helper(node.right, level + 1, result, &block)
+
+    #Node is yielded to block if given
+    block.call(node) if block_given?
   end
 
   #Finds minimum value in subtree
