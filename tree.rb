@@ -43,63 +43,39 @@ class Tree
 
   end
 
+  #Begins the delete process, calling different methods depending on position of node(two children, one child, or no child)
+  def delete(root = @root, value)
+    return root if root.nil?
 
-  def delete(value, node = @root, parent = nil)
-    return nil if node.nil?
-    if value == node.data  #temporary confirmation(to be removed)
-
-      if num_of_children(node).nil?
-        delete_leaf(parent, node)
-      elsif num_of_children(node) == 1
-        delete_single(parent, node)
-      else
-      end
-
-    end
-    if value < node.data
-      delete(value, node.left, node)
-    elsif value > node.data
-      delete(value, node.right, node)
-    end
-  end
-
-
-  def delete_leaf(parent, node)
-
-    if parent.data > node.data
-      parent.left = nil
-    elsif parent.data < node.data
-      parent.right = nil
-    else @root = nil
-    end
-    return nil
-
-  end
-
-  def delete_single(parent, node)
-    if parent.data > node.data
-      parent.left = node.right if node.right
-      parent.left = node.left if node.left
+    if root.data > value
+      root.left = delete(root.left, value)
+    elsif root.data < value
+      root.right = delete(root.right, value)
     else
-      parent.right = node.right if node.right
-      parent.right = node.left if node.left
+
+      if root.left.nil?
+        return root.right
+      elsif root.right.nil?
+        return root.left
+      else
+        successor = find_successor(root.right)
+        root.data = successor.data
+        root.right = delete(root.right, successor.data)
+      end
     end
-    return node
+    return root
   end
 
 
-  def find_min(node)
-    return node if node.left.nil?
-    min = node.left
-    return min if min.left.nil?
-    find_min(min)
+
+  #Finds minimum value in subtree
+  def find_successor(root)
+    return root if root.left.nil?
+    successor = root.left
+    return successor if successor.left.nil?
+    find_successor(successor)
   end
 
-  def num_of_children(node)
-    return 2 if node.left && node.right
-    return 1 if node.left && !node.right || node.right && !node.left
-    return nil if node.left.nil? && node.right.nil?
-  end
 
   #Prints tree in an easy to understand format
   def pretty_print(node = @root, prefix = '', is_left = true)
