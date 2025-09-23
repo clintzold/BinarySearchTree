@@ -71,6 +71,17 @@ class Tree
   end
 
 
+  def find(root = @root, value)
+    return root if root.nil?
+    if root.data > value
+      find(root.left, value)
+    elsif root.data < value
+      find(root.right, value)
+    else
+      return root
+    end
+
+  end
 
   #Finds minimum value in subtree
   def find_successor(root)
