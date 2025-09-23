@@ -182,6 +182,48 @@ class Tree
     result << root.data
   end
 
+  #Measures the height of node specified by value(perhaps should have used recursion)
+  def height(value)
+    node = find(value)
+    #Returns nil if node does not exists
+    return if node.nil?
+    #Variables to measure height by iteration
+    height_left = node
+    height_right = node
+    left = 0
+    right = 0
+    #Finds height of left path
+    while height_left.left
+      left += 1
+      height_left = height_left.left
+    end
+    #Finds height of right path
+    while height_right.right
+      right += 1
+      height_right = height_right.right
+    end
+    #Compares left and right height and returns the greatest number
+    if left > right
+      return left
+    else
+      return right
+    end
+  end
+
+  #Measures depth of node from root
+  def depth(value, root = @root, depth = 0)
+    return if root.nil?
+      if root.data > value
+        depth += 1
+        depth(value, root.left, depth)
+      elsif root.data < value
+        depth += 1
+        depth(value, root.right, depth)
+      else 
+        return depth
+      end
+  end
+
   #Finds minimum value in subtree
   def find_successor(root)
     return root if root.left.nil?
