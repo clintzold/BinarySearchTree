@@ -131,6 +131,57 @@ class Tree
     block.call(node) if block_given?
   end
 
+
+  #Recursively traverses tree depth-first and in order(left, root, right) and yields nodes to block. Returns array if block is not given
+  def inorder(root = @root, &block)
+    result = []
+    inorder_helper(root, result, &block)
+    return if block_given?
+    return result
+  end
+
+  def inorder_helper(root, result, &block)
+    return if root.nil?
+    inorder_helper(root.left, result, &block)
+    block.call(root) if block_given?
+    result << root.data
+    inorder_helper(root.right, result, &block)
+  end
+
+
+  #Recursively traverses tree depth-first in preorder(Root, Left, Right)
+  def preorder(root = @root, &block)
+    result = []
+    preorder_helper(root, result, &block)
+    return if block_given?
+    return result
+  end
+
+  def preorder_helper(root, result, &block)
+    return if root.nil?
+    block.call(root) if block_given?
+    result << root.data
+    preorder_helper(root.left, result, &block)
+    preorder_helper(root.right, result, &block)
+  end
+
+
+  #Recursively traverses tree depth-first in postorder(Left, Right, Root)
+  def postorder(root= @root, &block)
+    result = []
+    postorder_helper(root, result, &block)
+    return if block_given?
+    return result
+  end
+
+  def postorder_helper(root, result, &block)
+    return if root.nil?
+    postorder_helper(root.left, result, &block)
+    postorder_helper(root.right, result, &block)
+    block.call(root) if block_given?
+    result << root.data
+  end
+
   #Finds minimum value in subtree
   def find_successor(root)
     return root if root.left.nil?
