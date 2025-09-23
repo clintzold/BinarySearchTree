@@ -72,15 +72,40 @@ class Tree
 
 
   def find(root = @root, value)
+    #Returns root(nil) if no matches found
     return root if root.nil?
+    #Traverses tree, left or right looking for a match
     if root.data > value
       find(root.left, value)
     elsif root.data < value
       find(root.right, value)
+    #Returns node when value matches node data
     else
       return root
     end
+  end
 
+
+  def level_order(root = @root)
+    return [] if root.nil?
+    result = []
+    queue = [root]
+
+    while !queue.empty?
+      level_size = queue.length
+      current_level_values = []
+      level_size.times do 
+        node = queue.shift
+        current_level_values << node.data
+
+        queue << node.left if node.left
+        queue << node.right if node.right
+
+        yield node if block_given?
+      end
+      result << current_level_values
+    end
+    return result if !block_given?
   end
 
   #Finds minimum value in subtree
