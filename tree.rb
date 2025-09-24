@@ -14,7 +14,7 @@ class Tree
 
     middle = start + (last - start) / 2 #Find middle index of array
 
-    root = Node.new(array[middle])  #Create root not from middle element of array 
+    root = Node.new(array[middle])  #Create root node from middle element of array 
 
     root.left = build_tree(array, start, middle - 1)  #Build left sub-tree
     root.right = build_tree(array, middle + 1, last)  #Build right sub-tree
@@ -43,7 +43,7 @@ class Tree
 
   end
 
-  #Begins the delete process, calling different methods depending on position of node(two children, one child, or no child)
+  #Deletes nodes and restructures subtree if node has more than one child
   def delete(root = @root, value)
     #Base case(match not found)
     return root if root.nil?
