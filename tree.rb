@@ -224,6 +224,31 @@ class Tree
       end
   end
 
+  #Checks balance of tree using recursive helper method
+  def balanced?
+    if self.check_balance != -1
+      return true
+    else
+      return false
+    end
+  end
+  #Returns height if balanced, -1 if unbalanced.(Used two methods and integer returns to avoid comparing 'False' or 'Nil' to integers and receiving an Error
+  def check_balance(root = @root)
+    return 0 if root.nil?
+    left = check_balance(root.left)
+    right = check_balance(root.right)
+    return -1 if left - right > 1 || left - right < -1
+    return -1 if left == -1 || right == -1
+    return left + 1 if left > right
+    return right + 1
+  end
+
+  #Restructures unbalanced tree by creating an array from inorder traversal and passing to #build_tree
+  def rebalance
+    array = self.inorder
+    @root = build_tree(array, 0, array.length - 1)
+  end
+
   #Finds minimum value in subtree
   def find_successor(root)
     return root if root.left.nil?

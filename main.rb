@@ -1,5 +1,3 @@
-require 'pry-byebug'
-require_relative 'comparable'
 require_relative 'node'
 require_relative 'tree'
 
@@ -8,6 +6,4 @@ array = array.uniq
 array = Tree.merge_sort(array)
 tree = Tree.new(array)
 
-puts tree.root
-binding.pry
-puts 'hey'
+tree.pretty_print
